@@ -1,6 +1,7 @@
 package dev.socialcore.client;
 
 import dev.socialcore.SocialCoreGt;
+import dev.socialcore.client.gui.SocialCoreHubScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;

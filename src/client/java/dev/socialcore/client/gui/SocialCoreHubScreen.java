@@ -1,14 +1,14 @@
-package dev.socialcore.client;
+package dev.socialcore.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-final class SocialCoreHubScreen extends Screen {
+public final class SocialCoreHubScreen extends Screen {
     private final Screen parent;
 
-    SocialCoreHubScreen(Screen parent) {
+    public SocialCoreHubScreen(Screen parent) {
         super(Component.translatable("gui.socialcore-gt.title"));
         this.parent = parent;
     }
