@@ -45,7 +45,11 @@ Complete phases in order unless a dependency or compatibility finding requires r
 4. **Completed — Vanilla-client fallback GUI:** Provide an SGui/Polymer inventory hub opened by the server command (provisionally `/socialcore`; aliases are finalized in subpart 6). It must work for an unmodded vanilla client and include Online Players, Friends, Teams, Messages, and Notifications pages, with back navigation, pagination, empty states, and server-validated actions. Online player entries can open a context menu for supported friend, message, and team actions; team actions must reflect the viewer's role.
 
    Inventory menus support selecting from displayed players and options, but do not provide arbitrary text entry or a client-side search box. Use paginated lists for browsing; route free-text operations such as message content, team names, and team chat through documented chat commands. The fallback cannot customize the vanilla P-key screen, add controls to its player rows, or provide client-only widgets. These remain available only in the optional client UI. Teleport requests and ignore-player actions are outside the current MVP.
-5. Specify pending friend-request lifetime/persistence, invitation expiry, team ownership transfer/disband rules, and default permissions when LuckPerms is absent.
+5. **Completed — Request, team-ownership, and permission policies:**
+   - Pending friend requests are RAM-only, expire 24 hours after creation, remain available through player disconnect/reconnect until expiry, and are discarded on server restart. Accepting one creates a permanent UUID-based friend relationship; declining or expiring one discards the pending request.
+   - Team invitations are RAM-only, expire 24 hours after creation, remain available through player disconnect/reconnect until expiry, and are discarded on server restart. Disconnect cleanup for notifications does not remove a pending invitation.
+   - Each team must have exactly one owner. Ownership can be transferred only to a current member. An owner must transfer ownership or disband the team before leaving; only the owner may transfer ownership or disband. A disconnected owner remains the owner.
+   - When LuckPerms is unavailable, ordinary use, friend, team, and message actions are available to all players; admin actions require Minecraft operator permission level 2. When LuckPerms is available, permission nodes govern access. Final node names/aliases are settled in subpart 6.
 6. Confirm stable identifiers: mod ID, command roots/aliases, config folder, and permission-node names; decide whether any legacy `pulse.*` permission aliases are needed.
 
 **Exit criteria:** A short, recorded set of compatibility and behavior decisions; a minimal proof that the screen approach and fallback are feasible.
@@ -72,8 +76,8 @@ Complete phases in order unless a dependency or compatibility finding requires r
 
 ### Phase 3 — Friends
 
-1. Implement friend request creation, duplicate/self-request checks, accept, decline, remove, and list operations.
-2. Apply the pending-request policy decided in Phase 0.
+1. Implement RAM-only friend requests with 24-hour expiry, duplicate/self-request checks, accept, decline, remove, and list operations.
+2. Keep pending requests across player disconnect/reconnect; discard them on expiry or server restart.
 3. Add permission checks and clear success/error feedback.
 4. Add command flows under `/socialcore friend ...`.
 5. Test online/offline targets, duplicate requests, reconnect behavior, persistence, and relationship symmetry.
@@ -83,7 +87,7 @@ Complete phases in order unless a dependency or compatibility finding requires r
 ### Phase 4 — Teams
 
 1. Implement team creation, membership invariants, owner/officer/member roles, and roster queries.
-2. Implement invitations, acceptance, leaving, kicking, promotion, ownership transfer, and disbanding according to Phase 0 decisions.
+2. Implement RAM-only invitations with 24-hour expiry and reconnect retention, plus acceptance, leaving, kicking, promotion, ownership transfer, and disbanding according to Phase 0 decisions.
 3. Implement team chat with server-side membership checks.
 4. Add command flows under `/socialcore team ...`.
 5. Test role boundaries, one-team-per-player enforcement, offline members, and team persistence.
