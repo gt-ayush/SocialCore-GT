@@ -21,4 +21,6 @@ The remapped mod JAR is written to `build/libs/`. Install the matching Polymer d
 
 On first launch, SocialCore-GT creates `config/socialcore-gt/config.json` with `clientScreenIntegrationEnabled` enabled by default. Set it to `false` on a client to hide SocialCore actions in Minecraft's Social Interactions player list. Invalid or unreadable configuration is reported in the log and defaults are used.
 
+Permanent friendships and teams are stored as versioned JSON in `config/socialcore-gt/friends.json` and `teams.json`. The files are loaded when a server starts and initialized with empty version 1 data when absent. Invalid or unsupported data is reported and prevents the server from starting with partial state; messages and notifications are not part of these files.
+
 The current client integration is an early prototype: a row's Social actions control opens a placeholder player screen. Friend, team, and messaging actions are not implemented yet.

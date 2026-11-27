@@ -71,7 +71,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-    classpath = sourceSets.test.output + sourceSets.main.output + configurations.unitTestRuntime
+    classpath = sourceSets.test.output + sourceSets.main.output + sourceSets.main.compileClasspath + configurations.unitTestRuntime
 }
 
 processResources {
