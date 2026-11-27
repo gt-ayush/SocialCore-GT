@@ -61,7 +61,7 @@ Complete phases in order unless a dependency or compatibility finding requires r
 
 ### Phase 1 — Project foundation
 
-1. Set up the Fabric Loom build, mod metadata, source sets/entrypoints, and pinned dependencies.
+1. **Completed — Fabric build scaffold:** Added the Gradle 9.8.2 wrapper, Fabric Loom 1.19.6, Minecraft 26.3/Java 25 settings, pinned Fabric Loader/API, Polymer Core, and SGui dependencies, mod metadata with the selected `socialcore-gt` ID, and Loom-split `main`/`client` entrypoints. SGui is nested in the built mod JAR; Polymer remains a declared runtime dependency. `.\gradlew.bat clean build` succeeds with JDK 25.
 2. Add server and optional client initialization, reuse Minecraft's configurable Social Interactions key mapping without registering a competing P binding, and keep client/server classes side-separated.
 3. Establish package boundaries for commands, GUI, friends, teams, messages, notifications, storage, permissions, and shared utilities.
 4. Add logging and a minimal config/defaults mechanism without introducing unnecessary dependencies.

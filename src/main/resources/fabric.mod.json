@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "socialcore-gt",
+  "version": "${version}",
+  "name": "SocialCore-GT",
+  "description": "A lightweight social platform for Fabric Minecraft servers.",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.socialcore.SocialCoreGt"
+    ],
+    "client": [
+      "dev.socialcore.client.SocialCoreGtClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "0.162.0+26.3",
+    "polymer-core": "0.18.7+26.3",
+    "sgui": "2.2.1+26.3"
+  }
+}
