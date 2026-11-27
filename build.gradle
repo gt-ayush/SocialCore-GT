@@ -11,6 +11,22 @@ group = project.maven_group
 version = project.mod_version
 
 repositories {
+    mavenCentral()
+
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "JUnit"
+                url = "https://repo.maven.apache.org/maven2/"
+            }
+        }
+        filter {
+            includeGroupByRegex("org\\.junit(\\..*)?")
+            includeGroup("org.apiguardian")
+            includeGroup("org.opentest4j")
+        }
+    }
+
     exclusiveContent {
         forRepository {
             maven {
@@ -22,6 +38,10 @@ repositories {
             includeGroup("eu.pb4")
         }
     }
+}
+
+configurations {
+    unitTestRuntime
 }
 
 loom {
@@ -41,6 +61,17 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     implementation "eu.pb4:polymer-core:${project.polymer_version}"
     implementation include("eu.pb4:sgui:${project.sgui_version}")
+
+    testImplementation platform("org.junit:junit-bom:5.13.4")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    unitTestRuntime platform("org.junit:junit-bom:5.13.4")
+    unitTestRuntime "org.junit.jupiter:junit-jupiter"
+    unitTestRuntime "org.junit.platform:junit-platform-launcher"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    classpath = sourceSets.test.output + sourceSets.main.output + configurations.unitTestRuntime
 }
 
 processResources {
