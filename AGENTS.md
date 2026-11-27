@@ -42,7 +42,9 @@ Complete phases in order unless a dependency or compatibility finding requires r
 3. **Completed — Packaging and entrypoint strategy:** Build one combined SocialCore-GT mod JAR with Loom's split `main` and `client` source sets. Keep server/common code in `src/main`; keep P-screen UI and client-only mixins in `src/client`. In `fabric.mod.json`, use the `main` entrypoint for common/server initialization and the `client` entrypoint for client UI initialization. Client-only mixin configs must be environment-scoped. Do not reference client classes from common/server initializers or signatures. Install the same JAR on the server and on clients that want the enhanced screen; vanilla clients do not install it and use the server-opened fallback GUI. Only send custom payloads to clients after checking that they support SocialCore-GT's client protocol. This follows Fabric's [environment-specific entrypoint rules](https://docs.fabricmc.net/develop/loader/fabric-mod-json) and the official template's [split source-set configuration](https://github.com/FabricMC/fabric-example-mod/blob/1.21/build.gradle).
 
    **Phase 1 verification:** Build and launch the dedicated server without loading client classes, launch the client entrypoint, and verify an unmodded vanilla client can connect and use the fallback GUI.
-4. Define the vanilla-client fallback GUI and identify any actions that cannot be offered there.
+4. **Completed — Vanilla-client fallback GUI:** Provide an SGui/Polymer inventory hub opened by the server command (provisionally `/socialcore`; aliases are finalized in subpart 6). It must work for an unmodded vanilla client and include Online Players, Friends, Teams, Messages, and Notifications pages, with back navigation, pagination, empty states, and server-validated actions. Online player entries can open a context menu for supported friend, message, and team actions; team actions must reflect the viewer's role.
+
+   Inventory menus support selecting from displayed players and options, but do not provide arbitrary text entry or a client-side search box. Use paginated lists for browsing; route free-text operations such as message content, team names, and team chat through documented chat commands. The fallback cannot customize the vanilla P-key screen, add controls to its player rows, or provide client-only widgets. These remain available only in the optional client UI. Teleport requests and ignore-player actions are outside the current MVP.
 5. Specify pending friend-request lifetime/persistence, invitation expiry, team ownership transfer/disband rules, and default permissions when LuckPerms is absent.
 6. Confirm stable identifiers: mod ID, command roots/aliases, config folder, and permission-node names; decide whether any legacy `pulse.*` permission aliases are needed.
 
@@ -102,7 +104,7 @@ Complete phases in order unless a dependency or compatibility finding requires r
 
 1. Build the `/socialcore` inventory-based hub using SGui/Polymer.
 2. Add online players, friends, teams, messages, and notifications views as their services become available.
-3. Add pagination, search where practical, back navigation, empty states, and clear feedback.
+3. Add pagination, back navigation, empty states, and clear feedback; use chat commands for operations requiring free-text input.
 4. Revalidate permissions, target availability, and action eligibility when each menu action is handled.
 5. Test with an unmodded vanilla client and confirm server-authoritative behavior.
 
