@@ -18,3 +18,5 @@ Build the mod with the Gradle wrapper:
 ```
 
 The remapped mod JAR is written to `build/libs/`. Install the matching Polymer distribution on the server. Vanilla clients do not need to install SocialCore-GT; the enhanced P-key screen will be available to clients that install the mod.
+
+On first launch, SocialCore-GT creates `config/socialcore-gt/config.json` with `clientScreenIntegrationEnabled` enabled by default. Set it to `false` on a client to hide the SocialCore entry point from Minecraft's Social Interactions screen. Invalid or unreadable configuration is reported in the log and defaults are used.

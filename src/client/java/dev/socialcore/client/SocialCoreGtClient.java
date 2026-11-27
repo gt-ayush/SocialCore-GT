@@ -12,6 +12,11 @@ import net.minecraft.network.chat.Component;
 public final class SocialCoreGtClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        if (!SocialCoreGt.config().isClientScreenIntegrationEnabled()) {
+            SocialCoreGt.LOGGER.info("SocialCore-GT client screen integration is disabled by config");
+            return;
+        }
+
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (!(screen instanceof SocialInteractionsScreen)) {
                 return;
