@@ -42,7 +42,7 @@ Complete phases in order unless a dependency or compatibility finding requires r
 3. **Completed — Packaging and entrypoint strategy:** Build one combined SocialCore-GT mod JAR with Loom's split `main` and `client` source sets. Keep server/common code in `src/main`; keep P-screen UI and client-only mixins in `src/client`. In `fabric.mod.json`, use the `main` entrypoint for common/server initialization and the `client` entrypoint for client UI initialization. Client-only mixin configs must be environment-scoped. Do not reference client classes from common/server initializers or signatures. Install the same JAR on the server and on clients that want the enhanced screen; vanilla clients do not install it and use the server-opened fallback GUI. Only send custom payloads to clients after checking that they support SocialCore-GT's client protocol. This follows Fabric's [environment-specific entrypoint rules](https://docs.fabricmc.net/develop/loader/fabric-mod-json) and the official template's [split source-set configuration](https://github.com/FabricMC/fabric-example-mod/blob/1.21/build.gradle).
 
    **Phase 1 verification:** Build and launch the dedicated server without loading client classes, launch the client entrypoint, and verify an unmodded vanilla client can connect and use the fallback GUI.
-4. **Completed — Vanilla-client fallback GUI:** Provide an SGui/Polymer inventory hub opened by the server command (provisionally `/socialcore`; aliases are finalized in subpart 6). It must work for an unmodded vanilla client and include Online Players, Friends, Teams, Messages, and Notifications pages, with back navigation, pagination, empty states, and server-validated actions. Online player entries can open a context menu for supported friend, message, and team actions; team actions must reflect the viewer's role.
+4. **Completed — Vanilla-client fallback GUI:** Provide an SGui/Polymer inventory hub opened by `/socialcore` (alias `/social`). It must work for an unmodded vanilla client and include Online Players, Friends, Teams, Messages, and Notifications pages, with back navigation, pagination, empty states, and server-validated actions. Online player entries can open a context menu for supported friend, message, and team actions; team actions must reflect the viewer's role.
 
    Inventory menus support selecting from displayed players and options, but do not provide arbitrary text entry or a client-side search box. Use paginated lists for browsing; route free-text operations such as message content, team names, and team chat through documented chat commands. The fallback cannot customize the vanilla P-key screen, add controls to its player rows, or provide client-only widgets. These remain available only in the optional client UI. Teleport requests and ignore-player actions are outside the current MVP.
 5. **Completed — Request, team-ownership, and permission policies:**
@@ -50,7 +50,12 @@ Complete phases in order unless a dependency or compatibility finding requires r
    - Team invitations are RAM-only, expire 24 hours after creation, remain available through player disconnect/reconnect until expiry, and are discarded on server restart. Disconnect cleanup for notifications does not remove a pending invitation.
    - Each team must have exactly one owner. Ownership can be transferred only to a current member. An owner must transfer ownership or disband the team before leaving; only the owner may transfer ownership or disband. A disconnected owner remains the owner.
    - When LuckPerms is unavailable, ordinary use, friend, team, and message actions are available to all players; admin actions require Minecraft operator permission level 2. When LuckPerms is available, permission nodes govern access. Final node names/aliases are settled in subpart 6.
-6. Confirm stable identifiers: mod ID, command roots/aliases, config folder, and permission-node names; decide whether any legacy `pulse.*` permission aliases are needed.
+6. **Completed — Stable identifiers:**
+   - Fabric mod ID: `socialcore-gt`.
+   - Primary command: `/socialcore`; alias: `/social`. Feature commands remain under these roots to avoid collisions with vanilla `/team` and `/msg`.
+   - Permanent JSON data directory: `config/socialcore-gt/`.
+   - Canonical permission nodes: `socialcore.use`, `socialcore.friend`, `socialcore.team`, `socialcore.message`, and `socialcore.admin`.
+   - Do not provide legacy `pulse.*` permission aliases; Pulse was not released under that name.
 
 **Exit criteria:** A short, recorded set of compatibility and behavior decisions; a minimal proof that the screen approach and fallback are feasible.
 
@@ -126,7 +131,7 @@ Complete phases in order unless a dependency or compatibility finding requires r
 
 ### Phase 8 — Permissions, integration, and release validation
 
-1. Complete LuckPerms integration for the agreed use, friend, team, message, and admin permission nodes; add legacy `pulse.*` aliases only if Phase 0 requires them.
+1. Complete LuckPerms integration for `socialcore.use`, `socialcore.friend`, `socialcore.team`, `socialcore.message`, and `socialcore.admin`; do not add `pulse.*` aliases.
 2. Verify consistent permission behavior across commands, the fallback GUI, and the enhanced screen.
 3. Run focused unit/integration tests and a dedicated-server/client compatibility matrix.
 4. Review data cleanup, asynchronous save shutdown behavior, logging, and error reporting.
