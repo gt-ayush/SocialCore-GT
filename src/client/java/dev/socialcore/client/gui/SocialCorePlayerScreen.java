@@ -5,12 +5,18 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public final class SocialCoreHubScreen extends Screen {
-    private final Screen parent;
+import java.util.UUID;
 
-    public SocialCoreHubScreen(Screen parent) {
-        super(Component.translatable("gui.socialcore-gt.title"));
+public final class SocialCorePlayerScreen extends Screen {
+    private final Screen parent;
+    private final UUID playerId;
+    private final String playerName;
+
+    public SocialCorePlayerScreen(Screen parent, UUID playerId, String playerName) {
+        super(Component.translatable("gui.socialcore-gt.player.title", playerName));
         this.parent = parent;
+        this.playerId = playerId;
+        this.playerName = playerName;
     }
 
     @Override
@@ -24,5 +30,13 @@ public final class SocialCoreHubScreen extends Screen {
                         button -> Minecraft.getInstance().setScreenAndShow(this.parent))
                 .bounds(buttonX, buttonY, buttonWidth, 20)
                 .build());
+    }
+
+    public UUID playerId() {
+        return this.playerId;
+    }
+
+    public String playerName() {
+        return this.playerName;
     }
 }

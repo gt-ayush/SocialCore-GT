@@ -1,5 +1,6 @@
 {
-  "gui.socialcore-gt.open": "SocialCore",
-  "gui.socialcore-gt.title": "SocialCore-GT",
-  "gui.socialcore-gt.back": "Back"
+  "gui.socialcore-gt.back": "Back",
+  "gui.socialcore-gt.player.actions_short": "...",
+  "gui.socialcore-gt.player.actions": "Social actions",
+  "gui.socialcore-gt.player.title": "Social options: %s"
 }

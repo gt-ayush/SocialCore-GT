@@ -5,6 +5,7 @@
 *.log
 /.gradle/
 /build/
+/bin/
 /run/
 /out/
 /.idea/
